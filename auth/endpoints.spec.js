@@ -6,22 +6,39 @@ describe('server.js', function () {
 
   describe('/api/auth/register', function () {
 
-    test('should return 201 with json body', function () {
-      const newUser = {
-        username: 'newGuy',
-        password: 'sup'
+    // test('should return 201 with json body', function () {
+    //   const newUser = {
+    //     username: 'newGuy',
+    //     password: 'sup'
+    //   }
+    //   return request(server)
+    //     .post('/api/auth/register')
+    //     .send(newUser)
+    //     .expect(201)
+    //     .then(res => {
+    //       expect(res.type).toMatch(/json/i)
+    //     })
+    // })
+
+    test('should return 500', function () {
+      const userThatAlreadyExists = {
+        username: 'test',
+        password: 'test'
       }
       return request(server)
-        .post('/api/auth/register')
-        .send(newUser)
-        .expect(201)
-        .then(res => {
-          expect(res.type).toMatch(/json/i)
-        })
+        .post(`/api/auth/register`)
+        .send(userThatAlreadyExists)
+        .expect(500)
     })
-
-    test.todo('should return 500')
-    test.todo('should return 401')
+    test('should return 401', function () {
+      const noUsername = {
+        password: 'aasodijaso'
+      }
+      return request(server)
+        .post(`/api/auth/register`)
+        .send(noUsername)
+        .expect(401)
+    })
   })
 
   describe('/api/auth/login', function () {
@@ -59,7 +76,21 @@ describe('server.js', function () {
   })
 
   describe('/api/jokes', function () {
-    test.todo('should return 200')
-    test.todo('should return 500')
+    test('should return 200', function () {
+      return request(server)
+        .get('/api/jokes')
+        .send({
+          headers: {
+            authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE1ODUzMjQ4OTgsImV4cCI6MTU4NTQxMTI5OH0.21d0IMXVBMrS-rgN-diav70i1AUBbt00LVY1so7uU3g'
+          }
+        })
+        .expect(200)
+    })
+
+    test('should return 400', function () {
+      return request(server)
+        .get('/api/jokes')
+        .expect(400)
+    })
   })
 })
