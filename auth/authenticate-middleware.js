@@ -4,5 +4,10 @@
 */
 
 module.exports = (req, res, next) => {
-  res.status(401).json({ you: 'shall not pass!' });
+  const { authentication } = req.headers
+  if (authentication) {
+
+  } else {
+    res.status(401).json({ you: 'shall not pass!' });
+  }
 };
