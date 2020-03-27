@@ -77,13 +77,10 @@ describe('server.js', function () {
 
   describe('/api/jokes', function () {
     test('should return 200', function () {
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE1ODUzMjQ4OTgsImV4cCI6MTU4NTQxMTI5OH0.21d0IMXVBMrS-rgN-diav70i1AUBbt00LVY1so7uU3g'
       return request(server)
         .get('/api/jokes')
-        .send({
-          headers: {
-            authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE1ODUzMjQ4OTgsImV4cCI6MTU4NTQxMTI5OH0.21d0IMXVBMrS-rgN-diav70i1AUBbt00LVY1so7uU3g'
-          }
-        })
+        .set({ authorization: token })
         .expect(200)
     })
 
